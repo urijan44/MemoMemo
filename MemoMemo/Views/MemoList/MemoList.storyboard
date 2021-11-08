@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Q1g-cf-5Wl">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Memo List View Controller-->
+        <scene sceneID="Gk9-x2-Sgf">
+            <objects>
+                <viewController id="Q1g-cf-5Wl" customClass="MemoListViewController" customModule="MemoMemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rQE-jX-g3r">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Vl0-x5-Qcg">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lku-HQ-NfV">
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49" id="ZNm-PI-rhV"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ON2-PK-6IF"/>
+                                    <barButtonItem systemItem="compose" id="YJv-62-tCP">
+                                        <color key="tintColor" systemColor="systemOrangeColor"/>
+                                        <connections>
+                                            <action selector="addNewMemo:" destination="Q1g-cf-5Wl" id="JCZ-XF-wxh"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Opa-U2-OcS"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="lku-HQ-NfV" firstAttribute="leading" secondItem="rQE-jX-g3r" secondAttribute="leading" id="BMf-mW-hRh"/>
+                            <constraint firstItem="Vl0-x5-Qcg" firstAttribute="leading" secondItem="Opa-U2-OcS" secondAttribute="leading" id="BVU-mU-y6U"/>
+                            <constraint firstItem="lku-HQ-NfV" firstAttribute="bottom" secondItem="Opa-U2-OcS" secondAttribute="bottom" id="CJZ-d1-Zsa"/>
+                            <constraint firstItem="Opa-U2-OcS" firstAttribute="trailing" secondItem="Vl0-x5-Qcg" secondAttribute="trailing" id="OC0-Fo-PZB"/>
+                            <constraint firstItem="lku-HQ-NfV" firstAttribute="top" secondItem="Vl0-x5-Qcg" secondAttribute="bottom" id="SHH-pZ-iZ6"/>
+                            <constraint firstAttribute="trailing" secondItem="lku-HQ-NfV" secondAttribute="trailing" id="kG4-Nj-z2w"/>
+                            <constraint firstItem="Vl0-x5-Qcg" firstAttribute="top" secondItem="Opa-U2-OcS" secondAttribute="top" id="rqS-Rh-p3f"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="Vl0-x5-Qcg" id="P64-mn-rFu"/>
+                        <outlet property="toolbar" destination="lku-HQ-NfV" id="dNv-CN-RA4"/>
+                        <segue destination="eJE-oA-Mec" kind="show" identifier="AddNewMemoSegue" id="wBZ-b8-3AN"/>
+                        <segue destination="eJE-oA-Mec" kind="show" identifier="ShowDetailSegue" id="nNM-6m-fQl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hw5-6P-9Df" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-128.98550724637681" y="-364.28571428571428"/>
+        </scene>
+        <!--DetailMemo-->
+        <scene sceneID="IWJ-cV-ffC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="DetailMemo" id="eJE-oA-Mec" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="YkD-k1-0Hh"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="igv-qg-Enz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="535" y="-656"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="nNM-6m-fQl"/>
+    </inferredMetricsTieBreakers>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
