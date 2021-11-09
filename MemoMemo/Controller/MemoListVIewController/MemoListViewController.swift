@@ -28,7 +28,7 @@ class MemoListViewController: UIViewController {
     searchController.isActive && !isSearchBarEmpty
   }
   
-  var dataSource: UITableViewDiffableDataSource<Int, Memo>!
+  var dataSource: MemoListDataSource!
   
   override func viewDidLoad() {
     super.viewDidLoad()

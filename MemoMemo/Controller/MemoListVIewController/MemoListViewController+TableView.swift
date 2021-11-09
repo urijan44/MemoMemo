@@ -11,15 +11,16 @@ import RealmSwift
 
 //MARK: - DiffableDataSource
 //MARK: - TableView DataSource
-
 extension MemoListViewController {
   func configureDataSource() {
-    dataSource = UITableViewDiffableDataSource(tableView: tableView) { tableView, indexPath, memo in
+    
+    dataSource = MemoListDataSource(tableView: tableView) { tableView, indexPath, memo in
       guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath)
               as? MemoListTableViewCell else { fatalError() }
-      
+        
       if self.isFiltering {
         cell.configure(memo: memo)
+
         
         let searchText = self.searchController.searchBar.text ?? ""
         let targetTitle = NSMutableAttributedString(string: memo.title)
@@ -30,7 +31,6 @@ extension MemoListViewController {
         
         targetTitle.addAttribute(.foregroundColor, value: UIColor.orange, range: titleRange)
         targetContent.addAttribute(.foregroundColor, value: UIColor.orange, range: contentRange)
-        
         cell.titleLabel.attributedText = targetTitle
         cell.contentLabel.attributedText = targetContent
         
@@ -63,15 +63,24 @@ extension MemoListViewController {
     
     if let deleteMemo = deleteMemo {
       newSnapshot.deleteItems([deleteMemo])
-    } 
+    }
     dataSource.apply(newSnapshot, animatingDifferences: animatingDifferences)
     
   }
+
 }
 
 
+class MemoListDataSource: UITableViewDiffableDataSource<Int, Memo> {
+  override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    true
+  }
+}
+
 //MARK: - TableView Delegete
 extension MemoListViewController: UITableViewDelegate {
+  
+  
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     66
   }
