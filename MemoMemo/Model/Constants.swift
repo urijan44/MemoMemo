@@ -12,4 +12,8 @@ struct Constans {
     static let addNewMemoSegue = "AddNewMemoSegue"
     static let showDetailSegue = "ShowDetailSegue"
   }
+  
+  struct AlertBody {
+    static let pinnedLimit = "메모는 5개 까지만 고정할 수 있습니다"
+  }
 }

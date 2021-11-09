@@ -12,7 +12,7 @@ extension Date {
     let formatter = DateFormatter()
     if Calendar.current.isDateInToday(self) {
       formatter.dateFormat = "a HH:mm"
-    } else if Calendar.current.isDateInWeekend(self) {
+    } else if self >= Date(timeIntervalSinceNow: 60 * 60 * 24 * -7) {
       formatter.dateFormat = "EEEE"
     } else {
       formatter.dateFormat = "yyyy. MM. dd. a hh:mm"
@@ -21,3 +21,5 @@ extension Date {
     return formatter.string(from: self)
   }
 }
+
+

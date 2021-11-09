@@ -6,27 +6,17 @@
 //
 
 import UIKit
+import RealmSwift
 
 class MemoListViewController: UIViewController {
   
   @IBOutlet weak var tableView: UITableView!
   @IBOutlet weak var toolbar: UIToolbar!
   
+  let localRealm = try! Realm()
+  var filteredMemo: Results<Memo>!
+  
   let searchController = UISearchController(searchResultsController: nil)
-  var pinnedMemo: [Memo] = []
-  var dummyMemo: [Memo] = [
-    Memo(title: "메모1", content: "메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용"),
-    Memo(title: "메모2", content: "메모2 내용"),
-    Memo(title: "메모3", content: "메모3 내용"),
-    Memo(title: "메모4", content: "메모4 내용"),
-    Memo(title: "메모5", content: "메모5 내용"),
-    Memo(title: "메모1", content: "메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용"),
-    Memo(title: "메모1", content: "메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용"),
-    Memo(title: "메모1", content: "메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용"),
-    Memo(title: "메모1", content: "메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용"),
-    Memo(title: "메모1", content: "메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용메모1 내용"),
-  ]
-  var filteredMemo: [Memo] = []
   
   var isFirstRunning = false
   
@@ -38,32 +28,53 @@ class MemoListViewController: UIViewController {
     searchController.isActive && !isSearchBarEmpty
   }
   
+  var dataSource: UITableViewDiffableDataSource<Int, Memo>!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     tableViewConfigure()
     navigationConfigure()
     searchControllerConfigure()
-    dummyMemo[3].date.addTimeInterval(-60 * 60 * 24 * 3)
-    dummyMemo[4].date.addTimeInterval(-60 * 60 * 24 * 21)
+  
+    filteredMemo = localRealm.objects(Memo.self)
+    
+    print(localRealm.configuration.fileURL!)
+    configureDataSource()
+    updateDataSource()
   }
   
-  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    updateDataSource()
+  }
   
   func filterContentForSearchText(_ searchText: String) {
-    filteredMemo = dummyMemo.filter { (memo: Memo) -> Bool in
-      if isSearchBarEmpty {
-        return true
-      } else {
-        return memo.title.lowercased().contains(searchText.lowercased()) || memo.content.lowercased().contains(searchText.lowercased())
-      }
+    if isSearchBarEmpty {
+      filteredMemo = localRealm.objects(Memo.self).sorted(byKeyPath: "date", ascending: false)
+    } else {
+      filteredMemo = localRealm.objects(Memo.self).filter("title CONTAINS[c] '\(searchText)' OR content CONTAINS[c] '\(searchText)'").sorted(byKeyPath: "date", ascending: false)
     }
+    updateDataSource(animatingDifferences: false)
     tableView.reloadData()
   }
   
+  var pinnedMemo: Results<Memo> {
+    localRealm.objects(Memo.self).filter("isPinned == true").sorted(byKeyPath: "date", ascending: false)
+  }
+  
+  var defaultMemo: Results<Memo> {
+    localRealm.objects(Memo.self).filter("isPinned == false").sorted(byKeyPath: "date", ascending: false)
+  }
+  
   @IBAction func addNewMemo(_ sender: UIBarButtonItem) {
-    navigationItem.backButtonTitle = "메모"
-    performSegue(withIdentifier: Constans.Segues.addNewMemoSegue, sender: nil)
+    try! localRealm.write {
+      localRealm.add(Memo(title: "테스트테스트\(Int.random(in: 1...10))", content: "테스트테스트"))
+    }
+    updateDataSource()
+//    navigationItem.backButtonTitle = "메모"
+//    performSegue(withIdentifier: Constans.Segues.addNewMemoSegue, sender: nil)
   }
   
 }

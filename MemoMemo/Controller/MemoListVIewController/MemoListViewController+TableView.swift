@@ -6,79 +6,66 @@
 //
 
 import UIKit
+import RealmSwift
 
+
+//MARK: - DiffableDataSource
 //MARK: - TableView DataSource
 
-extension MemoListViewController: UITableViewDataSource {
-  
-  func numberOfSections(in tableView: UITableView) -> Int {
-    if isFiltering {
-      return 1
-    } else {
-      return pinnedMemo.isEmpty ? 1 : 2
-    }
-  }
-  
-  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    
-    if isFiltering {
-      return filteredMemo.count
-    } else {
-      switch section {
-      case 0:
-        return pinnedMemo.isEmpty ? dummyMemo.count : pinnedMemo.count
-      default:
-        return dummyMemo.count
-      }
-    }
-  }
-  
-  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath)
-            as? MemoListTableViewCell else { fatalError() }
-    
-    if isFiltering {
-      let memo = filteredMemo[indexPath.row]
-      cell.configure(memo: memo)
+extension MemoListViewController {
+  func configureDataSource() {
+    dataSource = UITableViewDiffableDataSource(tableView: tableView) { tableView, indexPath, memo in
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: MemoListTableViewCell.identifier, for: indexPath)
+              as? MemoListTableViewCell else { fatalError() }
       
-      let searchText = searchController.searchBar.text ?? ""
-      let targetTitle = NSMutableAttributedString(string: memo.title)
-      let targetContent = NSMutableAttributedString(string: memo.content)
-      
-      let titleRange = (memo.title as NSString).range(of: searchText, options: .caseInsensitive)
-      let contentRange = (memo.content as NSString).range(of: searchText, options: .caseInsensitive)
-      
-      targetTitle.addAttribute(.foregroundColor, value: UIColor.orange, range: titleRange)
-      targetContent.addAttribute(.foregroundColor, value: UIColor.orange, range: contentRange)
-      
-      cell.titleLabel.attributedText = targetTitle
-      cell.contentLabel.attributedText = targetContent
-      
-    } else {
-      switch indexPath.section {
-      case 0:
-        if pinnedMemo.isEmpty {
-          let memo = dummyMemo[indexPath.row]
+      if self.isFiltering {
+        cell.configure(memo: memo)
+        
+        let searchText = self.searchController.searchBar.text ?? ""
+        let targetTitle = NSMutableAttributedString(string: memo.title)
+        let targetContent = NSMutableAttributedString(string: memo.content)
+        
+        let titleRange = (memo.title as NSString).range(of: searchText, options: .caseInsensitive)
+        let contentRange = (memo.content as NSString).range(of: searchText, options: .caseInsensitive)
+        
+        targetTitle.addAttribute(.foregroundColor, value: UIColor.orange, range: titleRange)
+        targetContent.addAttribute(.foregroundColor, value: UIColor.orange, range: contentRange)
+        
+        cell.titleLabel.attributedText = targetTitle
+        cell.contentLabel.attributedText = targetContent
+        
+      } else {
+        switch indexPath.section {
+        case 0 where !self.pinnedMemo.isEmpty:
           cell.configure(memo: memo)
-        } else {
-          let memo = pinnedMemo[indexPath.row]
+        default:
           cell.configure(memo: memo)
         }
-      default:
-        let memo = dummyMemo[indexPath.row]
-        cell.configure(memo: memo)
+      }
+      return cell
+    }
+  }
+  
+  func updateDataSource(animatingDifferences: Bool = true, deleteMemo: Memo? = nil) {
+    var newSnapshot = NSDiffableDataSourceSnapshot<Int, Memo>()
+    if isFiltering {
+      newSnapshot.appendSections([0])
+      newSnapshot.appendItems(filteredMemo.map{$0}, toSection: 0)
+    } else {
+      newSnapshot.appendSections([0, 1])
+      if !pinnedMemo.isEmpty {
+        newSnapshot.appendItems(pinnedMemo.map{$0}, toSection: 0)
+        newSnapshot.appendItems(defaultMemo.map{$0}, toSection: 1)
+      } else {
+        newSnapshot.appendItems(defaultMemo.map{$0}, toSection: 0)
       }
     }
     
+    if let deleteMemo = deleteMemo {
+      newSnapshot.deleteItems([deleteMemo])
+    } 
+    dataSource.apply(newSnapshot, animatingDifferences: animatingDifferences)
     
-    
-    return cell
-  }
-  
-  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-    
-//    dummyMemo.remove(at: indexPath.row)
-//    tableView.deleteRows(at: [indexPath], with: .automatic)
   }
 }
 
@@ -89,19 +76,19 @@ extension MemoListViewController: UITableViewDelegate {
     66
   }
   
-  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-    if isFiltering {
-      return "\(filteredMemo.count.thousandDivideString)개 찾음"
-    } else {
-      switch section {
-      case 0:
-        return pinnedMemo.isEmpty ? "메모" : "고정된 메모"
-      default:
-        return "메모"
-      }
-    }
-    
-  }
+//  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//    if isFiltering {
+//      return "\(filteredMemo.count.thousandDivideString)개 찾음"
+//    } else {
+//      switch section {
+//      case 0:
+//        return pinnedMemo.isEmpty ? "메모" : "고정된 메모"
+//      default:
+//        return "메모"
+//      }
+//    }
+//
+//  }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
     if isFiltering {
@@ -114,24 +101,46 @@ extension MemoListViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let pinned = UIContextualAction(style: .normal, title: "") { [weak self] (_, _, success: @escaping (Bool) -> Void) in
       guard let self = self else { return }
-      
-      switch indexPath.section {
-      case 0:
-        if self.pinnedMemo.isEmpty {
-          self.pinnedMemo.append(self.dummyMemo[indexPath.row])
-          self.dummyMemo.remove(at: indexPath.row)
-        } else {
-          self.dummyMemo.append(self.pinnedMemo[indexPath.row])
-          self.pinnedMemo.remove(at: indexPath.row)
+      if self.isFiltering {
+        let toUpdateMemo = self.filteredMemo[indexPath.row]
+        try! self.localRealm.write {
+          if toUpdateMemo.isPinned {
+            toUpdateMemo.isPinned = false
+          } else if self.pinnedMemo.count < 5 {
+            toUpdateMemo.isPinned = true
+          } else {
+            //show hud
+            self.commonAlert(body: Constans.AlertBody.pinnedLimit, okOnly: true)
+          }
         }
-      default:
-        self.pinnedMemo.append(self.dummyMemo[indexPath.row])
-        self.dummyMemo.remove(at: indexPath.row)
+      } else {
+        switch indexPath.section {
+        case 0 where !self.pinnedMemo.isEmpty:
+          let toUpdateMemo = self.pinnedMemo[indexPath.row]
+          try! self.localRealm.write {
+            toUpdateMemo.isPinned = false
+          }
+        default:
+          if self.pinnedMemo.count < 5 {
+            let toUpdateMemo = self.defaultMemo[indexPath.row]
+            try! self.localRealm.write {
+              toUpdateMemo.isPinned = true
+            }
+          } else {
+            //show hud
+            self.commonAlert(body: Constans.AlertBody.pinnedLimit, okOnly: true)
+          }
+        }
       }
-      tableView.reloadData()
+      
+      self.updateDataSource()
       success(true)
     }
-    pinned.image = indexPath.section == 0 && pinnedMemo.isEmpty ? UIImage(systemName: "pin.fill") : indexPath.section == 0 ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
+    if isFiltering {
+      pinned.image = filteredMemo[indexPath.row].isPinned ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
+    } else {
+      pinned.image = indexPath.section == 0 && pinnedMemo.isEmpty ? UIImage(systemName: "pin.fill") : indexPath.section == 0 ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
+    }
     pinned.image?.withTintColor(.white)
     pinned.backgroundColor = .orange
     return .init(actions: [pinned])
@@ -143,18 +152,10 @@ extension MemoListViewController: UITableViewDelegate {
       
       let alert = UIAlertController(title: "알림", message: "정말 삭제하시겠습니까?", preferredStyle: .alert)
       let ok = UIAlertAction(title: "삭제", style: .destructive) { _ in
-        switch indexPath.section {
-        case 0:
-          if self.pinnedMemo.isEmpty {
-            self.dummyMemo.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-          } else {
-            self.pinnedMemo.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-          }
-        default:
-          self.dummyMemo.remove(at: indexPath.row)
-          tableView.deleteRows(at: [indexPath], with: .automatic)
+        guard let toDeleteMemo = self.dataSource.itemIdentifier(for: indexPath) else { return }
+        try! self.localRealm.write {
+          self.updateDataSource(animatingDifferences: true, deleteMemo: toDeleteMemo)
+          self.localRealm.delete(toDeleteMemo)
         }
       }
       

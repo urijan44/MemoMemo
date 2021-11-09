@@ -9,13 +9,17 @@ import Foundation
 extension MemoListViewController {
   func tableViewConfigure() {
     tableView.delegate = self
-    tableView.dataSource = self
     tableView.register(.init(nibName: MemoListTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: MemoListTableViewCell.identifier)
   }
   
   func navigationConfigure() {
     navigationController?.navigationBar.prefersLargeTitles = true
-    title = "\((dummyMemo.count + 1000).thousandDivideString)개의 메모"
+    let wholeMemo = localRealm.objects(Memo.self).count
+    #if DEBUG
+    title = "\((wholeMemo + 1000).thousandDivideString)개의 메모"
+    #else
+    title = "\((wholeMemo).thousandDivideString)개의 메모"
+    #endif
   }
   
   func searchControllerConfigure() {
