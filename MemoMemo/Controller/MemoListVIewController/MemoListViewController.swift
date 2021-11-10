@@ -19,7 +19,7 @@ class MemoListViewController: UIViewController {
   
   let searchController = UISearchController(searchResultsController: nil)
   
-  var isFirstRunning = false
+  var isFirstRunning = true
   
   var dataSource: MemoListDataSource!
   
@@ -37,6 +37,17 @@ class MemoListViewController: UIViewController {
     updateDataSource()
     
     print(localRealm.configuration.fileURL!)
+    
+    if isFirstRunning {
+      guard let controller = UIStoryboard(name: "Start", bundle: nil).instantiateViewController(withIdentifier: StartViewController.identifier)
+      as? StartViewController else { return }
+      
+      controller.modalTransitionStyle = .crossDissolve
+      controller.modalPresentationStyle = .overFullScreen
+      
+      present(controller, animated: true, completion: nil)
+      
+    }
   }
   
   override func viewWillAppear(_ animated: Bool) {

@@ -50,10 +50,14 @@ extension MemoListViewController {
       newSnapshot.appendSections([0])
       newSnapshot.appendItems(filteredMemo.map{$0}, toSection: 0)
     } else {
-      newSnapshot.appendSections([0, 1])
+      newSnapshot.appendSections([0])
       if !pinnedMemo.isEmpty {
         newSnapshot.appendItems(pinnedMemo.map{$0}, toSection: 0)
-        newSnapshot.appendItems(defaultMemo.map{$0}, toSection: 1)
+        
+        if !defaultMemo.isEmpty {
+          newSnapshot.appendSections([1])
+          newSnapshot.appendItems(defaultMemo.map{$0}, toSection: 1)
+        }
       } else {
         newSnapshot.appendItems(defaultMemo.map{$0}, toSection: 0)
       }
@@ -93,15 +97,32 @@ extension MemoListViewController: UITableViewDelegate {
       return header
     } else {
       switch section {
-        case 0 where !pinnedMemo.isEmpty:
-          headerText = "고정된 메모"
-          header.titleLabel.text = headerText
-          return header
+        case 0:
+          if !pinnedMemo.isEmpty {
+            headerText = "고정된 메모"
+            header.titleLabel.text = headerText
+            return header
+          } else if !defaultMemo.isEmpty {
+            headerText = "메모"
+            header.titleLabel.text = headerText
+            return header
+          } else {
+            headerText = ""
+            header.titleLabel.text = headerText
+            return header
+          }
         default:
-          headerText = "메모"
-          header.titleLabel.text = headerText
-          return header
-      }
+          if !defaultMemo.isEmpty && !pinnedMemo.isEmpty {
+           headerText = "메모"
+           header.titleLabel.text = headerText
+           return header
+         } else {
+           headerText = ""
+           header.titleLabel.text = headerText
+           return header
+         }
+        }
+        
     }
   }
   
@@ -147,7 +168,7 @@ extension MemoListViewController: UITableViewDelegate {
         }
       }
       
-      self.updateDataSource()
+//      self.updateDataSource()
       success(true)
     }
     if isFiltering {

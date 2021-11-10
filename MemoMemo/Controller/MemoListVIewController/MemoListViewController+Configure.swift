@@ -37,6 +37,7 @@ extension MemoListViewController {
           self.updateUI()
         case .update(_, deletions: _, insertions: _, modifications: _):
           self.updateUI()
+          self.updateDataSource()
         case .error(let error):
           print(error)
       }
