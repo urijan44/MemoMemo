@@ -23,6 +23,8 @@ class StartViewController: UIViewController {
   }
   
   @IBAction func dismissStartView() {
-    dismiss(animated: true, completion: nil)
+    dismiss(animated: true) {
+      UserDefaults.standard.set(true, forKey: "isSecondRun")
+    }
   }
 }

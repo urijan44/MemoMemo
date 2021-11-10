@@ -19,12 +19,21 @@ class MemoListViewController: UIViewController {
   
   let searchController = UISearchController(searchResultsController: nil)
   
-  var isFirstRunning = true
-  
   var dataSource: MemoListDataSource!
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    if !UserDefaults.standard.bool(forKey: "isSecondRun") {
+      guard let controller = UIStoryboard(name: "Start", bundle: nil).instantiateViewController(withIdentifier: StartViewController.identifier)
+      as? StartViewController else { return }
+      
+      controller.modalTransitionStyle = .crossDissolve
+      controller.modalPresentationStyle = .overFullScreen
+      
+      present(controller, animated: true, completion: nil)
+    }
+
+    
     
     tableViewConfigure()
     navigationConfigure()
@@ -38,16 +47,8 @@ class MemoListViewController: UIViewController {
     
     print(localRealm.configuration.fileURL!)
     
-    if isFirstRunning {
-      guard let controller = UIStoryboard(name: "Start", bundle: nil).instantiateViewController(withIdentifier: StartViewController.identifier)
-      as? StartViewController else { return }
-      
-      controller.modalTransitionStyle = .crossDissolve
-      controller.modalPresentationStyle = .overFullScreen
-      
-      present(controller, animated: true, completion: nil)
-      
-    }
+    
+     
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -111,6 +112,13 @@ extension MemoListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
     let searchBar = searchController.searchBar
     filterContentForSearchText(searchBar.text!)
+    
+    #if DEBUG
+    if searchBar.text == "isSecondRunReset" {
+      UserDefaults.standard.set(false, forKey: "isSecondRun")
+    }
+    #endif
+    
   }
 }
 
