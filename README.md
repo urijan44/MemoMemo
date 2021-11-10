@@ -17,7 +17,7 @@
 - [x] 검색기능 구현
 - [x] 검색 결과 텍스트 컬러 변경
 - [x] 검색 결과 개수 섹션에 표시
-- [ ] 헤더 UI
+- [x] 헤더 UI
 - [x] Realm
 - [x] DiffableDataSource
 - [x] 검색 화면에서, 핀, 삭제
@@ -29,3 +29,4 @@
 # memo
 - ~~DiffableDataSource 쓰는게 애니메이션 적용에 편할듯~~
 - ~~데이터 Realm으로 교체하기~~
+- ~~DiffableDataSource 클래스로 변경해서 CanEditRowAt true로 설정해주기~~

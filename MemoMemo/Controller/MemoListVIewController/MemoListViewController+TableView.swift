@@ -8,9 +8,7 @@
 import UIKit
 import RealmSwift
 
-
 //MARK: - DiffableDataSource
-//MARK: - TableView DataSource
 extension MemoListViewController {
   func configureDataSource() {
     
@@ -65,7 +63,6 @@ extension MemoListViewController {
       newSnapshot.deleteItems([deleteMemo])
     }
     dataSource.apply(newSnapshot, animatingDifferences: animatingDifferences)
-    
   }
 
 }
@@ -85,25 +82,35 @@ extension MemoListViewController: UITableViewDelegate {
     66
   }
   
-//  func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//    if isFiltering {
-//      return "\(filteredMemo.count.thousandDivideString)개 찾음"
-//    } else {
-//      switch section {
-//      case 0:
-//        return pinnedMemo.isEmpty ? "메모" : "고정된 메모"
-//      default:
-//        return "메모"
-//      }
-//    }
-//
-//  }
+  func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: MemoListTableHeaderView.identifier)
+            as? MemoListTableHeaderView else { return nil }
+    
+    let headerText: String
+    if isFiltering {
+      headerText = "\(filteredMemo.count)개 찾음"
+      header.titleLabel.text = headerText
+      return header
+    } else {
+      switch section {
+        case 0 where !pinnedMemo.isEmpty:
+          headerText = "고정된 메모"
+          header.titleLabel.text = headerText
+          return header
+        default:
+          headerText = "메모"
+          header.titleLabel.text = headerText
+          return header
+      }
+    }
+  }
   
   func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    let defaultHeight: CGFloat = 55
     if isFiltering {
-      return 44
+      return defaultHeight
     } else {
-      return pinnedMemo.isEmpty ? 0 : 44
+      return pinnedMemo.isEmpty ? 0 : defaultHeight
     }
   }
   
@@ -118,7 +125,6 @@ extension MemoListViewController: UITableViewDelegate {
           } else if self.pinnedMemo.count < 5 {
             toUpdateMemo.isPinned = true
           } else {
-            //show hud
             self.commonAlert(body: Constans.AlertBody.pinnedLimit, okOnly: true)
           }
         }
@@ -136,7 +142,6 @@ extension MemoListViewController: UITableViewDelegate {
               toUpdateMemo.isPinned = true
             }
           } else {
-            //show hud
             self.commonAlert(body: Constans.AlertBody.pinnedLimit, okOnly: true)
           }
         }
@@ -146,9 +151,17 @@ extension MemoListViewController: UITableViewDelegate {
       success(true)
     }
     if isFiltering {
-      pinned.image = filteredMemo[indexPath.row].isPinned ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
+      pinned.image = filteredMemo[indexPath.row]
+        .isPinned
+      ? UIImage(systemName: "pin.slash.fill")
+      : UIImage(systemName: "pin.fill")
     } else {
-      pinned.image = indexPath.section == 0 && pinnedMemo.isEmpty ? UIImage(systemName: "pin.fill") : indexPath.section == 0 ? UIImage(systemName: "pin.slash.fill") : UIImage(systemName: "pin.fill")
+      pinned.image = indexPath.section == 0
+      && pinnedMemo.isEmpty
+      ? UIImage(systemName: "pin.fill")
+      : indexPath.section == 0
+      ? UIImage(systemName: "pin.slash.fill")
+      : UIImage(systemName: "pin.fill")
     }
     pinned.image?.withTintColor(.white)
     pinned.backgroundColor = .orange

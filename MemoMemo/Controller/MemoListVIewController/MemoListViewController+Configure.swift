@@ -6,20 +6,18 @@
 //
 
 import Foundation
+import RealmSwift
+
 extension MemoListViewController {
   func tableViewConfigure() {
     tableView.delegate = self
     tableView.register(.init(nibName: MemoListTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: MemoListTableViewCell.identifier)
+    tableView.register(.init(nibName: MemoListTableHeaderView.identifier, bundle: nil), forHeaderFooterViewReuseIdentifier: MemoListTableHeaderView.identifier)
   }
   
   func navigationConfigure() {
     navigationController?.navigationBar.prefersLargeTitles = true
-    let wholeMemo = localRealm.objects(Memo.self).count
-    #if DEBUG
-    title = "\((wholeMemo + 1000).thousandDivideString)개의 메모"
-    #else
-    title = "\((wholeMemo).thousandDivideString)개의 메모"
-    #endif
+
   }
   
   func searchControllerConfigure() {
@@ -29,5 +27,19 @@ extension MemoListViewController {
     searchController.searchBar.tintColor = .orange
     navigationItem.searchController = searchController
     definesPresentationContext = true
+  }
+  
+  func notificationConfiture() {
+    notificationToekn = localRealm.objects(Memo.self).observe { [weak self] (changes: RealmCollectionChange) in
+      guard let self = self else { return }
+      switch changes {
+        case .initial:
+          self.updateUI()
+        case .update(_, deletions: _, insertions: _, modifications: _):
+          self.updateUI()
+        case .error(let error):
+          print(error)
+      }
+    }
   }
 }

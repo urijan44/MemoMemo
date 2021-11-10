@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8A3A43DB273BFC09002C56BE /* MemoListTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A3A43DA273BFC09002C56BE /* MemoListTableHeaderView.xib */; };
 		8A7B8C13273AF03100627A63 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B8C12273AF03100627A63 /* ViewController.swift */; };
+		8A861016273BF5FD00BD43E6 /* MemoListTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A861015273BF5FD00BD43E6 /* MemoListTableHeaderView.swift */; };
 		8A958E8C273AA0A500440CB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 8A958E8B273AA0A500440CB7 /* Realm */; };
 		8A958E8E273AA0A500440CB7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8A958E8D273AA0A500440CB7 /* RealmSwift */; };
 		8A9BDC2F27396066008256BC /* DetailMemo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A9BDC2E27396066008256BC /* DetailMemo.storyboard */; };
@@ -30,7 +32,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8A3A43DA273BFC09002C56BE /* MemoListTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemoListTableHeaderView.xib; sourceTree = "<group>"; };
 		8A7B8C12273AF03100627A63 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8A861015273BF5FD00BD43E6 /* MemoListTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableHeaderView.swift; sourceTree = "<group>"; };
 		8A9BDC2E27396066008256BC /* DetailMemo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailMemo.storyboard; sourceTree = "<group>"; };
 		8A9BDC30273960F6008256BC /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		8A9BDC3227396380008256BC /* MemoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableViewCell.swift; sourceTree = "<group>"; };
@@ -71,6 +75,8 @@
 				8AE35D05273960050023AD2B /* MemoList.storyboard */,
 				8A9BDC3227396380008256BC /* MemoListTableViewCell.swift */,
 				8A9BDC3327396380008256BC /* MemoListTableViewCell.xib */,
+				8A861015273BF5FD00BD43E6 /* MemoListTableHeaderView.swift */,
+				8A3A43DA273BFC09002C56BE /* MemoListTableHeaderView.xib */,
 			);
 			path = MemoList;
 			sourceTree = "<group>";
@@ -191,6 +197,7 @@
 				TargetAttributes = {
 					8AE35CED27395F9A0023AD2B = {
 						CreatedOnToolsVersion = 13.1;
+						LastSwiftMigration = 1310;
 					};
 				};
 			};
@@ -220,6 +227,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A3A43DB273BFC09002C56BE /* MemoListTableHeaderView.xib in Resources */,
 				8AE35D06273960050023AD2B /* MemoList.storyboard in Resources */,
 				8A9BDC3527396380008256BC /* MemoListTableViewCell.xib in Resources */,
 				8AE35CFE27395F9B0023AD2B /* LaunchScreen.storyboard in Resources */,
@@ -236,6 +244,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A861016273BF5FD00BD43E6 /* MemoListTableHeaderView.swift in Sources */,
 				8A9BDC3427396380008256BC /* MemoListTableViewCell.swift in Sources */,
 				8ABB3DDC273994D80015B72B /* String+Extension.swift in Sources */,
 				8AE35CF627395F9A0023AD2B /* MemoListViewController.swift in Sources */,
@@ -394,6 +403,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = XJXA3BQDMJ;
@@ -413,6 +423,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.GookBob.MemoMemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -423,6 +434,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = XJXA3BQDMJ;

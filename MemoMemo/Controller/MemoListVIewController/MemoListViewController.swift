@@ -15,18 +15,11 @@ class MemoListViewController: UIViewController {
   
   let localRealm = try! Realm()
   var filteredMemo: Results<Memo>!
+  var notificationToekn: NotificationToken?
   
   let searchController = UISearchController(searchResultsController: nil)
   
   var isFirstRunning = false
-  
-  var isSearchBarEmpty: Bool {
-    searchController.searchBar.text?.isEmpty ?? true
-  }
-  
-  var isFiltering: Bool {
-    searchController.isActive && !isSearchBarEmpty
-  }
   
   var dataSource: MemoListDataSource!
   
@@ -36,25 +29,30 @@ class MemoListViewController: UIViewController {
     tableViewConfigure()
     navigationConfigure()
     searchControllerConfigure()
-  
+    notificationConfiture()
+    
     filteredMemo = localRealm.objects(Memo.self)
     
-    print(localRealm.configuration.fileURL!)
     configureDataSource()
     updateDataSource()
+    
+    print(localRealm.configuration.fileURL!)
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
     updateDataSource()
+    updateUI()
   }
   
   func filterContentForSearchText(_ searchText: String) {
     if isSearchBarEmpty {
       filteredMemo = localRealm.objects(Memo.self).sorted(byKeyPath: "date", ascending: false)
     } else {
-      filteredMemo = localRealm.objects(Memo.self).filter("title CONTAINS[c] '\(searchText)' OR content CONTAINS[c] '\(searchText)'").sorted(byKeyPath: "date", ascending: false)
+      filteredMemo = localRealm.objects(Memo.self).filter(
+        "title CONTAINS[c] '\(searchText)' OR content CONTAINS[c] '\(searchText)'")
+        .sorted(byKeyPath: "date", ascending: false)
     }
     updateDataSource(animatingDifferences: false)
     tableView.reloadData()
@@ -66,6 +64,23 @@ class MemoListViewController: UIViewController {
   
   var defaultMemo: Results<Memo> {
     localRealm.objects(Memo.self).filter("isPinned == false").sorted(byKeyPath: "date", ascending: false)
+  }
+  
+  var isSearchBarEmpty: Bool {
+    searchController.searchBar.text?.isEmpty ?? true
+  }
+  
+  var isFiltering: Bool {
+    searchController.isActive && !isSearchBarEmpty
+  }
+  
+  func updateUI() {
+    let wholeMemo = localRealm.objects(Memo.self).count
+    #if DEBUG
+    title = "\((wholeMemo + 1000).thousandDivideString)개의 메모"
+    #else
+    title = "\((wholeMemo).thousandDivideString)개의 메모"
+    #endif
   }
   
   @IBAction func addNewMemo(_ sender: UIBarButtonItem) {
