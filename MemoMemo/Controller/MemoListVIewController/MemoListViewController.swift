@@ -46,9 +46,6 @@ class MemoListViewController: UIViewController {
     updateDataSource()
     
     print(localRealm.configuration.fileURL!)
-    
-    
-     
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -96,13 +93,18 @@ class MemoListViewController: UIViewController {
   }
   
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    navigationItem.backButtonTitle = "메모"
     if segue.identifier == "AddNewMemoSegue" {
       guard let controller = segue.destination as? DetailViewController else { return }
       controller.delegate = self
     } else if segue.identifier == "ShowDetailSegue" {
+      if isFiltering {
+        navigationItem.backButtonTitle = "검색"
+      }
       guard let controller = segue.destination as? DetailViewController else { return }
       controller.delegate = self
       controller.memo = sender as? Memo
+      controller.isDetailViewMode = true
     }
   }
   
@@ -142,5 +144,12 @@ extension MemoListViewController: DetailViewControllerDelegate {
         localRealm.add(memo)
       }
     } 
+  }
+  
+  func detailViewController(_ detailViewController: DetailViewController, deleteMemo memo: Memo, isEditMode: Bool) {
+    updateDataSource(animatingDifferences: true, deleteMemo: memo)
+    try! localRealm.write {
+      localRealm.delete(memo)
+    }
   }
 }

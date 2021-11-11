@@ -19,16 +19,17 @@ extension MemoListViewController {
       if self.isFiltering {
         cell.configure(memo: memo)
 
-        
         let searchText = self.searchController.searchBar.text ?? ""
+        
         let targetTitle = NSMutableAttributedString(string: memo.title)
         let targetContent = NSMutableAttributedString(string: memo.content)
-        
+                
         let titleRange = (memo.title as NSString).range(of: searchText, options: .caseInsensitive)
         let contentRange = (memo.content as NSString).range(of: searchText, options: .caseInsensitive)
         
         targetTitle.addAttribute(.foregroundColor, value: UIColor.orange, range: titleRange)
         targetContent.addAttribute(.foregroundColor, value: UIColor.orange, range: contentRange)
+        
         cell.titleLabel.attributedText = targetTitle
         cell.contentLabel.attributedText = targetContent
         
@@ -166,6 +167,7 @@ extension MemoListViewController: UITableViewDelegate {
             commonAlert(self, body: Constans.AlertBody.pinnedLimit, okOnly: true)
           }
         }
+        tableView.reloadData()
       } else {
         switch indexPath.section {
         case 0 where !self.pinnedMemo.isEmpty:
@@ -185,6 +187,7 @@ extension MemoListViewController: UITableViewDelegate {
         }
       }
     }
+    
     if isFiltering {
       pinned.image = filteredMemo[indexPath.row]
         .isPinned
