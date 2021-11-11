@@ -33,8 +33,6 @@ class MemoListViewController: UIViewController {
       present(controller, animated: true, completion: nil)
     }
 
-    
-    
     tableViewConfigure()
     navigationConfigure()
     searchControllerConfigure()
@@ -44,8 +42,6 @@ class MemoListViewController: UIViewController {
     
     configureDataSource()
     updateDataSource()
-    
-    print(localRealm.configuration.fileURL!)
   }
   
   override func viewWillAppear(_ animated: Bool) {

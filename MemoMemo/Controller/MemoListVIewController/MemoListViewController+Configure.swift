@@ -13,6 +13,7 @@ extension MemoListViewController {
     tableView.delegate = self
     tableView.register(.init(nibName: MemoListTableViewCell.identifier, bundle: nil), forCellReuseIdentifier: MemoListTableViewCell.identifier)
     tableView.register(.init(nibName: MemoListTableHeaderView.identifier, bundle: nil), forHeaderFooterViewReuseIdentifier: MemoListTableHeaderView.identifier)
+    tableView.keyboardDismissMode = .onDrag
   }
   
   func navigationConfigure() {
