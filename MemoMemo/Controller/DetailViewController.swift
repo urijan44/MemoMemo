@@ -40,6 +40,11 @@ class DetailViewController: UIViewController {
     keyboardNotificationSetup()
   }
   
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    saveMemo()
+  }
+  
   func navigationBarConfigure() {
     let activity = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showActivityViewController))
     let save = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(saveMemo))
