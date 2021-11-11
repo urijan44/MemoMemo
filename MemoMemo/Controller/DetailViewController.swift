@@ -20,12 +20,12 @@ class DetailViewController: UIViewController {
       contentTableView.dataSource = self
     }
   }
-
+  
   let localRealm = try! Realm()
-  var keyboardSize: CGRect?
   var memo: Memo?
   var delegate: DetailViewControllerDelegate?
   var content = ""
+  var keyboardHeight: CGFloat = 0
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -35,22 +35,40 @@ class DetailViewController: UIViewController {
   }
   
   func navigationBarConfigure() {
-    let activity = UIBarButtonItem(barButtonSystemItem: .compose, target: self, action: nil)
+    let activity = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(showActivityViewController))
     let save = UIBarButtonItem(title: "완료", style: .done, target: self, action: #selector(saveMemo))
     navigationItem.rightBarButtonItems = [save, activity]
   }
   
   func keyboardNotificationSetup() {
-    NotificationCenter.default.addObserver(self, selector: #selector(getKeyboardHeight(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-  }
-  
-  @objc func getKeyboardHeight(notification: NSNotification) {
-    if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-      self.keyboardSize = keyboardSize
+    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: .main) { (notification) in
+      self.handleKeyboard(notification: notification)
     }
   }
   
+  @objc func showActivityViewController() {
+    let activity: UIActivityViewController
+    if let memo = memo {
+      activity = UIActivityViewController(activityItems: [memo.content], applicationActivities: [])
+    } else {
+      activity = UIActivityViewController(activityItems: [content], applicationActivities: [])
+    }
+    
+    present(activity, animated: true)
+  }
+  
+  func handleKeyboard(notification: Notification) {
+    guard notification.name == UIResponder.keyboardWillChangeFrameNotification else {
+      return
+    }
+
+    guard let info = notification.userInfo,
+          let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+    keyboardHeight = keyboardFrame.cgRectValue.height
+  }
+  
   @objc func saveMemo() {
+    guard !content.isEmpty else { dismiss(animated: true, completion: nil); return }
     if let memo = memo {
       try! localRealm.write {
         let title = String(content.split(separator: "\n").first ?? "")
@@ -77,25 +95,18 @@ extension DetailViewController: UITableViewDataSource {
     let cell = tableView.dequeueReusableCell(withIdentifier: "ContentCell", for: indexPath)
     
     guard let textView = cell.viewWithTag(1000) as? UITextView else { return UITableViewCell() }
+    textView.becomeFirstResponder()
     if let memo = memo {
       textView.text = memo.content
     }
-    textView.becomeFirstResponder()
     textView.delegate = self
-    
     return cell
   }
 }
 
 extension DetailViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if let keyboardSize = keyboardSize {
-      print(keyboardSize.height)
-      return UIScreen.main.bounds.height - 330
-    } else {
-      return UIScreen.main.bounds.height - 350
-    }
-    
+    return tableView.bounds.height - keyboardHeight
   }
 }
 

@@ -20,17 +20,19 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="5dJ-wl-v0E">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContentCell" id="IfB-RJ-b4F">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="22"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ContentCell" rowHeight="500" id="IfB-RJ-b4F">
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="500"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IfB-RJ-b4F" id="9e6-YX-Ak9">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="22"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="500"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1000" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhs-Yl-C73">
-                                                    <rect key="frame" x="20" y="11" width="374" height="0.0"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1000" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uhs-Yl-C73">
+                                                    <rect key="frame" x="8" y="11" width="398" height="489"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <edgeInsets key="layoutMargins" top="8" left="8" bottom="0.0" right="8"/>
                                                     <color key="textColor" systemColor="labelColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -38,11 +40,13 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="uhs-Yl-C73" firstAttribute="top" secondItem="9e6-YX-Ak9" secondAttribute="topMargin" id="Zia-c1-18b"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="uhs-Yl-C73" secondAttribute="bottom" id="mjZ-yp-uSh"/>
+                                                <constraint firstAttribute="bottom" secondItem="uhs-Yl-C73" secondAttribute="bottom" id="mjZ-yp-uSh"/>
                                                 <constraint firstItem="uhs-Yl-C73" firstAttribute="leading" secondItem="9e6-YX-Ak9" secondAttribute="leadingMargin" id="q0M-Dd-g1R"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="uhs-Yl-C73" secondAttribute="trailing" id="tdu-G9-8AC"/>
                                             </constraints>
+                                            <edgeInsets key="layoutMargins" top="8" left="8" bottom="0.0" right="8"/>
                                         </tableViewCellContentView>
+                                        <edgeInsets key="layoutMargins" top="8" left="8" bottom="0.0" right="8"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
