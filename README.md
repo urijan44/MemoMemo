@@ -3,7 +3,7 @@
 - Update: 2021.11.09
 
 # Request List
-- [ ] 최초 진입 팝업 뷰
+- [x] 최초 진입 팝업 뷰
 - [x] Memo List UI
 - [x] 총 작성된 메모의 개수를 네비게이션 타이틀에 표시
 - [x] 메모가 1천개가 넘어갈 경우 1천자리 단위로 구분자
@@ -21,8 +21,8 @@
 - [x] Realm
 - [x] DiffableDataSource
 - [x] 검색 화면에서, 핀, 삭제
-- [ ] 셀 클릭 시 수정, 디테일 화면 전환 
-- [ ] 메모 수정, 추가 UI
+- [x] 셀 클릭 시 수정, 디테일 화면 전환 
+- [x] 메모 수정, 추가 UI
 - [ ] UIActivityViewController
 
 

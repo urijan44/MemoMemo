@@ -81,6 +81,21 @@ class MemoListDataSource: UITableViewDiffableDataSource<Int, Memo> {
 //MARK: - TableView Delegete
 extension MemoListViewController: UITableViewDelegate {
   
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let memo: Memo
+    if isFiltering {
+      memo = filteredMemo[indexPath.row]
+    } else {
+      if indexPath.section == 0 && !pinnedMemo.isEmpty {
+        memo = pinnedMemo[indexPath.row]
+      } else if indexPath.section == 0 {
+        memo = defaultMemo[indexPath.row]
+      } else {
+        memo = defaultMemo[indexPath.row]
+      }
+    }
+    performSegue(withIdentifier: "ShowDetailSegue", sender: memo)
+  }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     66
@@ -135,8 +150,10 @@ extension MemoListViewController: UITableViewDelegate {
     }
   }
   
+  
+  
   func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let pinned = UIContextualAction(style: .normal, title: "") { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+    let pinned = UIContextualAction(style: .normal, title: "") { [weak self] (_, _, _) in
       guard let self = self else { return }
       if self.isFiltering {
         let toUpdateMemo = self.filteredMemo[indexPath.row]
@@ -146,7 +163,7 @@ extension MemoListViewController: UITableViewDelegate {
           } else if self.pinnedMemo.count < 5 {
             toUpdateMemo.isPinned = true
           } else {
-            self.commonAlert(body: Constans.AlertBody.pinnedLimit, okOnly: true)
+            commonAlert(self, body: Constans.AlertBody.pinnedLimit, okOnly: true)
           }
         }
       } else {
@@ -163,13 +180,10 @@ extension MemoListViewController: UITableViewDelegate {
               toUpdateMemo.isPinned = true
             }
           } else {
-            self.commonAlert(body: Constans.AlertBody.pinnedLimit, okOnly: true)
+            commonAlert(self, body: Constans.AlertBody.pinnedLimit, okOnly: true)
           }
         }
       }
-      
-//      self.updateDataSource()
-      success(true)
     }
     if isFiltering {
       pinned.image = filteredMemo[indexPath.row]
@@ -190,7 +204,8 @@ extension MemoListViewController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let delete = UIContextualAction(style: .destructive, title: "") { [weak self] (action, view, handler) in
+    
+    let delete = UIContextualAction(style: .destructive, title: "") { [weak self] (_, _, _) in
       guard let self = self else { return }
       
       let alert = UIAlertController(title: "알림", message: "정말 삭제하시겠습니까?", preferredStyle: .alert)
@@ -211,7 +226,10 @@ extension MemoListViewController: UITableViewDelegate {
     }
     delete.image = UIImage(systemName: "trash.fill")?.withTintColor(.white)
     delete.backgroundColor = .red
-
-    return .init(actions: [delete])
+    
+    let configuration = UISwipeActionsConfiguration(actions: [delete])
+    configuration.performsFirstActionWithFullSwipe = true
+    
+    return configuration
   }
 }

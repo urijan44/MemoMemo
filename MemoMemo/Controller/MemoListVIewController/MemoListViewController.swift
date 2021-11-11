@@ -95,13 +95,21 @@ class MemoListViewController: UIViewController {
     #endif
   }
   
-  @IBAction func addNewMemo(_ sender: UIBarButtonItem) {
-    try! localRealm.write {
-      localRealm.add(Memo(title: "테스트테스트\(Int.random(in: 1...10))", content: "테스트테스트"))
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "AddNewMemoSegue" {
+      guard let controller = segue.destination as? DetailViewController else { return }
+      controller.delegate = self
+    } else if segue.identifier == "ShowDetailSegue" {
+      guard let controller = segue.destination as? DetailViewController else { return }
+      controller.delegate = self
+      controller.memo = sender as? Memo
     }
-    updateDataSource()
-//    navigationItem.backButtonTitle = "메모"
-//    performSegue(withIdentifier: Constans.Segues.addNewMemoSegue, sender: nil)
+  }
+  
+  @IBAction func addNewMemo(_ sender: UIBarButtonItem) {
+    
+    navigationItem.backButtonTitle = "메모"
+    performSegue(withIdentifier: Constans.Segues.addNewMemoSegue, sender: nil)
   }
   
 }
@@ -125,4 +133,14 @@ extension MemoListViewController: UISearchResultsUpdating {
 //MARK: - SearchBar
 extension MemoListTableViewCell: UISearchBarDelegate {
   
+}
+
+extension MemoListViewController: DetailViewControllerDelegate {
+  func detailViewController(_ detailViewController: DetailViewController, with memo: Memo, isEditMode: Bool) {
+    if !isEditMode {
+      try! localRealm.write {
+        localRealm.add(memo)
+      }
+    } 
+  }
 }

@@ -3,13 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		8A3A43DB273BFC09002C56BE /* MemoListTableHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8A3A43DA273BFC09002C56BE /* MemoListTableHeaderView.xib */; };
 		8A3A43E2273C085F002C56BE /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3A43E1273C085F002C56BE /* StartViewController.swift */; };
-		8A7B8C13273AF03100627A63 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B8C12273AF03100627A63 /* ViewController.swift */; };
+		8A4FFC2D273C2719004954B2 /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4FFC2C273C2719004954B2 /* Functions.swift */; };
+		8A7B8C13273AF03100627A63 /* ViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B8C12273AF03100627A63 /* ViewController+Extension.swift */; };
 		8A861016273BF5FD00BD43E6 /* MemoListTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A861015273BF5FD00BD43E6 /* MemoListTableHeaderView.swift */; };
 		8A958E8C273AA0A500440CB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 8A958E8B273AA0A500440CB7 /* Realm */; };
 		8A958E8E273AA0A500440CB7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8A958E8D273AA0A500440CB7 /* RealmSwift */; };
@@ -36,7 +37,8 @@
 /* Begin PBXFileReference section */
 		8A3A43DA273BFC09002C56BE /* MemoListTableHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MemoListTableHeaderView.xib; sourceTree = "<group>"; };
 		8A3A43E1273C085F002C56BE /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
-		8A7B8C12273AF03100627A63 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8A4FFC2C273C2719004954B2 /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		8A7B8C12273AF03100627A63 /* ViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+Extension.swift"; sourceTree = "<group>"; };
 		8A861015273BF5FD00BD43E6 /* MemoListTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListTableHeaderView.swift; sourceTree = "<group>"; };
 		8A9BDC2E27396066008256BC /* DetailMemo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = DetailMemo.storyboard; sourceTree = "<group>"; };
 		8A9BDC30273960F6008256BC /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
@@ -109,7 +111,7 @@
 			children = (
 				8ABB3DD427398D980015B72B /* Date+Extension.swift */,
 				8ABB3DDB273994D80015B72B /* String+Extension.swift */,
-				8A7B8C12273AF03100627A63 /* ViewController.swift */,
+				8A7B8C12273AF03100627A63 /* ViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -145,6 +147,7 @@
 			children = (
 				8AE35CF127395F9A0023AD2B /* AppDelegate.swift */,
 				8AE35CF327395F9A0023AD2B /* SceneDelegate.swift */,
+				8A4FFC2C273C2719004954B2 /* Functions.swift */,
 				8ABB3DD327398D8B0015B72B /* Extensions */,
 				8A9BDC372739703B008256BC /* Model */,
 				8A9BDC3627397036008256BC /* Controller */,
@@ -208,7 +211,7 @@
 				};
 			};
 			buildConfigurationList = 8AE35CE927395F9A0023AD2B /* Build configuration list for PBXProject "MemoMemo" */;
-			compatibilityVersion = "Xcode 13.0";
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -259,7 +262,8 @@
 				8AE35CF227395F9A0023AD2B /* AppDelegate.swift in Sources */,
 				8ABB3DD027398BA80015B72B /* DetailViewController.swift in Sources */,
 				8ABB3DD7273994630015B72B /* MemoListViewController+Configure.swift in Sources */,
-				8A7B8C13273AF03100627A63 /* ViewController.swift in Sources */,
+				8A4FFC2D273C2719004954B2 /* Functions.swift in Sources */,
+				8A7B8C13273AF03100627A63 /* ViewController+Extension.swift in Sources */,
 				8ABB3DD227398C700015B72B /* Constants.swift in Sources */,
 				8ABB3DDA273994980015B72B /* MemoListViewController+TableView.swift in Sources */,
 				8ABB3DD527398D980015B72B /* Date+Extension.swift in Sources */,
