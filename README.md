@@ -1,6 +1,6 @@
 # MemoMemo 평과과제
 
-- Update: 2021.11.09
+- v1.0.0 Complete
 
 # Request List
 - [x] 최초 진입 팝업 뷰
