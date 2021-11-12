@@ -34,9 +34,3 @@
     - [x] 컨텐츠가 비어있을 시 삭제 동작
     - [x] 컨텐츠 첫줄은 타이틀, 그 뒤부터는 바디로 나누어 저장
     - [x] UIActivityViewController
-
-
-# memo
-- ~~DiffableDataSource 쓰는게 애니메이션 적용에 편할듯~~
-- ~~데이터 Realm으로 교체하기~~
-- ~~DiffableDataSource 클래스로 변경해서 CanEditRowAt true로 설정해주기~~

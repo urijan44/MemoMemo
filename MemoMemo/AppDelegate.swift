@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     UIButton.appearance().tintColor = .orange
     UIBarButtonItem.appearance().tintColor = .orange
+    UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).title = "취소"
     
     return true
   }
