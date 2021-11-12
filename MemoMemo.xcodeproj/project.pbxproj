@@ -25,6 +25,8 @@
 		8ABB3DD7273994630015B72B /* MemoListViewController+Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABB3DD6273994630015B72B /* MemoListViewController+Configure.swift */; };
 		8ABB3DDA273994980015B72B /* MemoListViewController+TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABB3DD9273994980015B72B /* MemoListViewController+TableView.swift */; };
 		8ABB3DDC273994D80015B72B /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABB3DDB273994D80015B72B /* String+Extension.swift */; };
+		8ACB16A3273E39590039781C /* DetailViewController+Configure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB16A2273E39590039781C /* DetailViewController+Configure.swift */; };
+		8ACB16A5273E398F0039781C /* DetailViewController+Actions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACB16A4273E398F0039781C /* DetailViewController+Actions.swift */; };
 		8AE35CF227395F9A0023AD2B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE35CF127395F9A0023AD2B /* AppDelegate.swift */; };
 		8AE35CF427395F9A0023AD2B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE35CF327395F9A0023AD2B /* SceneDelegate.swift */; };
 		8AE35CF627395F9A0023AD2B /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AE35CF527395F9A0023AD2B /* MemoListViewController.swift */; };
@@ -51,6 +53,8 @@
 		8ABB3DD6273994630015B72B /* MemoListViewController+Configure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoListViewController+Configure.swift"; sourceTree = "<group>"; };
 		8ABB3DD9273994980015B72B /* MemoListViewController+TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemoListViewController+TableView.swift"; sourceTree = "<group>"; };
 		8ABB3DDB273994D80015B72B /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		8ACB16A2273E39590039781C /* DetailViewController+Configure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailViewController+Configure.swift"; sourceTree = "<group>"; };
+		8ACB16A4273E398F0039781C /* DetailViewController+Actions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailViewController+Actions.swift"; sourceTree = "<group>"; };
 		8AE35CEE27395F9A0023AD2B /* MemoMemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MemoMemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE35CF127395F9A0023AD2B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8AE35CF327395F9A0023AD2B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,7 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				8ABB3DD8273994810015B72B /* MemoListVIewController */,
-				8ABB3DCF27398BA80015B72B /* DetailViewController.swift */,
+				8ACB16A1273E394B0039781C /* DetailVIewController */,
 				8A3A43E1273C085F002C56BE /* StartViewController.swift */,
 			);
 			path = Controller;
@@ -124,6 +128,16 @@
 				8ABB3DD6273994630015B72B /* MemoListViewController+Configure.swift */,
 			);
 			path = MemoListVIewController;
+			sourceTree = "<group>";
+		};
+		8ACB16A1273E394B0039781C /* DetailVIewController */ = {
+			isa = PBXGroup;
+			children = (
+				8ABB3DCF27398BA80015B72B /* DetailViewController.swift */,
+				8ACB16A2273E39590039781C /* DetailViewController+Configure.swift */,
+				8ACB16A4273E398F0039781C /* DetailViewController+Actions.swift */,
+			);
+			path = DetailVIewController;
 			sourceTree = "<group>";
 		};
 		8AE35CE527395F9A0023AD2B = {
@@ -263,9 +277,11 @@
 				8ABB3DD027398BA80015B72B /* DetailViewController.swift in Sources */,
 				8ABB3DD7273994630015B72B /* MemoListViewController+Configure.swift in Sources */,
 				8A4FFC2D273C2719004954B2 /* Functions.swift in Sources */,
+				8ACB16A5273E398F0039781C /* DetailViewController+Actions.swift in Sources */,
 				8A7B8C13273AF03100627A63 /* ViewController+Extension.swift in Sources */,
 				8ABB3DD227398C700015B72B /* Constants.swift in Sources */,
 				8ABB3DDA273994980015B72B /* MemoListViewController+TableView.swift in Sources */,
+				8ACB16A3273E39590039781C /* DetailViewController+Configure.swift in Sources */,
 				8ABB3DD527398D980015B72B /* Date+Extension.swift in Sources */,
 				8AE35CF427395F9A0023AD2B /* SceneDelegate.swift in Sources */,
 				8A9BDC31273960F6008256BC /* Memo.swift in Sources */,

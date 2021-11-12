@@ -51,17 +51,6 @@ class MemoListViewController: UIViewController {
     updateUI()
   }
   
-  func filterContentForSearchText(_ searchText: String) {
-    if isSearchBarEmpty {
-      filteredMemo = localRealm.objects(Memo.self).sorted(byKeyPath: "date", ascending: false)
-    } else {
-      filteredMemo = localRealm.objects(Memo.self).filter(
-        "title CONTAINS[c] '\(searchText)' OR content CONTAINS[c] '\(searchText)'")
-        .sorted(byKeyPath: "date", ascending: false)
-    }
-    updateDataSource(animatingDifferences: false)
-    tableView.reloadData()
-  }
   
   var pinnedMemo: Results<Memo> {
     localRealm.objects(Memo.self).filter("isPinned == true").sorted(byKeyPath: "date", ascending: false)
@@ -79,15 +68,38 @@ class MemoListViewController: UIViewController {
     searchController.isActive && !isSearchBarEmpty
   }
   
-  func updateUI() {
-    let wholeMemo = localRealm.objects(Memo.self).count
-    #if DEBUG
-    title = "\((wholeMemo + 1000).thousandDivideString)개의 메모"
-    #else
-    title = "\((wholeMemo).thousandDivideString)개의 메모"
-    #endif
+  func filterContentForSearchText(_ searchText: String) {
+    if isSearchBarEmpty {
+      filteredMemo = localRealm.objects(Memo.self).sorted(byKeyPath: "date", ascending: false)
+    } else {
+      filteredMemo = localRealm.objects(Memo.self).filter(
+        "title CONTAINS[c] '\(searchText)' OR content CONTAINS[c] '\(searchText)'")
+        .sorted(byKeyPath: "date", ascending: false)
+    }
+    updateDataSource(animatingDifferences: false)
+    tableView.reloadData()
   }
   
+  func updateUI() {
+    let wholeMemo = localRealm.objects(Memo.self).count
+    title = "\((wholeMemo).thousandDivideString)개의 메모"
+  }
+  
+  func pinImage() -> UIImage? {
+    UIImage(systemName: "pin.fill")
+  }
+
+  func pinSlashImage() -> UIImage? {
+    UIImage(systemName: "pin.slash.fill")
+  }
+
+  @IBAction func addNewMemo(_ sender: UIBarButtonItem) {
+    navigationItem.backButtonTitle = "메모"
+    performSegue(withIdentifier: Constans.Segues.addNewMemoSegue, sender: nil)
+  }
+  
+  
+  //MARK: - Navigation
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     navigationItem.backButtonTitle = "메모"
     if segue.identifier == "AddNewMemoSegue" {
@@ -104,35 +116,19 @@ class MemoListViewController: UIViewController {
     }
   }
   
-  @IBAction func addNewMemo(_ sender: UIBarButtonItem) {
-    
-    navigationItem.backButtonTitle = "메모"
-    performSegue(withIdentifier: Constans.Segues.addNewMemoSegue, sender: nil)
-  }
+
   
 }
 
 //MARK: - UISearchResultsUpdating
-
 extension MemoListViewController: UISearchResultsUpdating {
   func updateSearchResults(for searchController: UISearchController) {
     let searchBar = searchController.searchBar
     filterContentForSearchText(searchBar.text!)
-    
-    #if DEBUG
-    if searchBar.text == "isSecondRunReset" {
-      UserDefaults.standard.set(false, forKey: "isSecondRun")
-    }
-    #endif
-    
   }
 }
 
-//MARK: - SearchBar
-extension MemoListTableViewCell: UISearchBarDelegate {
-  
-}
-
+//MARK: - Delegates
 extension MemoListViewController: DetailViewControllerDelegate {
   func detailViewController(_ detailViewController: DetailViewController, with memo: Memo, isEditMode: Bool) {
     if !isEditMode {

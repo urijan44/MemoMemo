@@ -72,7 +72,6 @@ extension MemoListViewController {
 
 }
 
-
 class MemoListDataSource: UITableViewDiffableDataSource<Int, Memo> {
   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
     true
@@ -83,6 +82,7 @@ class MemoListDataSource: UITableViewDiffableDataSource<Int, Memo> {
 extension MemoListViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    tableView.deselectRow(at: indexPath, animated: true)
     let memo: Memo
     if isFiltering {
       memo = filteredMemo[indexPath.row]
@@ -151,8 +151,6 @@ extension MemoListViewController: UITableViewDelegate {
     }
   }
   
-  
-  
   func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
     let pinned = UIContextualAction(style: .normal, title: "") { [weak self] (_, _, _) in
       guard let self = self else { return }
@@ -191,15 +189,15 @@ extension MemoListViewController: UITableViewDelegate {
     if isFiltering {
       pinned.image = filteredMemo[indexPath.row]
         .isPinned
-      ? UIImage(systemName: "pin.slash.fill")
-      : UIImage(systemName: "pin.fill")
+      ? pinSlashImage()
+      : pinImage()
     } else {
       pinned.image = indexPath.section == 0
       && pinnedMemo.isEmpty
-      ? UIImage(systemName: "pin.fill")
+      ? pinImage()
       : indexPath.section == 0
-      ? UIImage(systemName: "pin.slash.fill")
-      : UIImage(systemName: "pin.fill")
+      ? pinSlashImage()
+      : pinImage()
     }
     pinned.image?.withTintColor(.white)
     pinned.backgroundColor = .orange
