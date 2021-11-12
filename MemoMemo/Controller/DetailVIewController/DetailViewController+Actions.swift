@@ -21,12 +21,16 @@ extension DetailViewController {
   
   func handleKeyboard(notification: Notification) {
     guard notification.name == UIResponder.keyboardWillChangeFrameNotification else {
+      keyboardHeight = 0
       return
     }
 
     guard let info = notification.userInfo,
           let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-    keyboardHeight = keyboardFrame.cgRectValue.height
+    UIView.animate(withDuration: 0.1) {
+      self.keyboardHeight = keyboardFrame.cgRectValue.height
+      self.view.layoutIfNeeded()
+    }
   }
   
   @objc func dismissThisView() {

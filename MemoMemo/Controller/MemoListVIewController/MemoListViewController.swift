@@ -49,6 +49,7 @@ class MemoListViewController: UIViewController {
     
     updateDataSource()
     updateUI()
+    tableView.reloadData()
   }
   
   
@@ -115,9 +116,6 @@ class MemoListViewController: UIViewController {
       controller.isDetailViewMode = true
     }
   }
-  
-
-  
 }
 
 //MARK: - UISearchResultsUpdating
