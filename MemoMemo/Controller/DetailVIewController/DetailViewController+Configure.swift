@@ -14,11 +14,11 @@ extension DetailViewController {
     navigationItem.rightBarButtonItems = [save, activity]
   }
   
-
-  
   func keyboardNotificationSetup() {
-    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: .main) { (notification) in
+    var token: NSObjectProtocol?
+    token = NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillChangeFrameNotification, object: nil, queue: .main) { (notification) in
       self.handleKeyboard(notification: notification)
+      NotificationCenter.default.removeObserver(token!)
     }
   }
 }

@@ -20,6 +20,7 @@ extension DetailViewController {
   }
   
   func handleKeyboard(notification: Notification) {
+    print(#function)
     guard notification.name == UIResponder.keyboardWillChangeFrameNotification else {
       keyboardHeight = 0
       return
@@ -30,6 +31,7 @@ extension DetailViewController {
     UIView.animate(withDuration: 0.1) {
       self.keyboardHeight = keyboardFrame.cgRectValue.height
       self.view.layoutIfNeeded()
+      
     }
   }
   
@@ -40,7 +42,7 @@ extension DetailViewController {
   func saveMemo() {
     if let memo = memo {
       try! localRealm.write {
-        if !content.isEmpty {
+        if !content.filter({$0 != "\n"}).isEmpty {
           if let titleSplitIndex = content.firstIndex(of: "\n") {
             memo.title = String(content[content.startIndex...titleSplitIndex])
             memo.content = String(content[content.index(after: titleSplitIndex)..<content.endIndex])
@@ -56,7 +58,7 @@ extension DetailViewController {
       }
       navigationController?.popViewController(animated: true)
     } else {
-      guard !content.isEmpty else { navigationController?.popViewController(animated: true); return }
+      guard !content.filter({$0 != "\n"}).isEmpty else { navigationController?.popViewController(animated: true); return }
       let title: String
       let body: String
       if let titleSplitIndex = content.firstIndex(of: "\n") {

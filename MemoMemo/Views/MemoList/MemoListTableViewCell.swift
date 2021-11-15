@@ -25,7 +25,13 @@ class MemoListTableViewCell: UITableViewCell {
   func configure(memo: Memo) {
     titleLabel.text = memo.title
     dateLabel.text = memo.date.customDateString
-    contentLabel.text = memo.content
+    
+    
+    if memo.content.filter({$0 != "\n"}).isEmpty {
+      contentLabel.text = "추가 텍스트 없음"
+    } else {
+      contentLabel.text = memo.content
+    }
     
     let image = UIImage(named: "1")
     if image == nil {

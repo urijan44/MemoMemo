@@ -45,6 +45,8 @@ class DetailViewController: UIViewController {
     super.viewWillDisappear(animated)
     saveMemo()
   }
+  
+
 }
 
 //MARK: - DataSouce, Delegate
@@ -60,7 +62,6 @@ extension DetailViewController: UITableViewDataSource {
     if let memo = memo {
       textView.text = memo.title + memo.content
     }
-    
     if !isDetailViewMode {
       textView.becomeFirstResponder()
     }
@@ -71,7 +72,7 @@ extension DetailViewController: UITableViewDataSource {
 
 extension DetailViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return tableView.bounds.height - keyboardHeight
+    return tableView.bounds.height + keyboardHeight
   }
 }
 
@@ -83,6 +84,7 @@ extension DetailViewController: UITextViewDelegate {
       contentTableView.reloadData()
     }
   }
+  
   func textViewDidChange(_ textView: UITextView) {
     content = textView.text
   }
